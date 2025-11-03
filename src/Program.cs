@@ -1,14 +1,12 @@
 ﻿
 namespace schetsplus.src
 {
-    public class Program
+    internal class Program
     {
-
         [STAThreadAttribute]
         public static void Main()
         {
-
+            Application.Run(new SchetsEditor());
         }
-
     }
 }
