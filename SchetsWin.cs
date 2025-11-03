@@ -4,162 +4,213 @@ using System.Drawing;
 using System.Windows.Forms;
 
 public class SchetsWin : Form
-{   
-    MenuStrip menuStrip;
-    SchetsControl schetscontrol;
-    ISchetsTool huidigeTool;
-    Panel paneel;
-    bool vast;
-
-    private void veranderAfmeting(object o, EventArgs ea)
-    {
-        schetscontrol.Size = new Size ( this.ClientSize.Width  - 70
-                                      , this.ClientSize.Height - 50);
-        paneel.Location = new Point(64, this.ClientSize.Height - 30);
-    }
-
-    private void klikToolMenu(object obj, EventArgs ea)
-    {
-        this.huidigeTool = (ISchetsTool)((ToolStripMenuItem)obj).Tag;
-    }
-
-    private void klikToolButton(object obj, EventArgs ea)
-    {
-        this.huidigeTool = (ISchetsTool)((RadioButton)obj).Tag;
-    }
-
-    private void afsluiten(object obj, EventArgs ea)
-    {
-        this.Close();
-    }
+{
+    private MenuStrip menuStrip;
+    private SchetsControl schetscontrol;
+    private ISchetsTool huidigeTool;
+    private Panel paneel;
+    private bool vast;
 
     public SchetsWin()
     {
-        ISchetsTool[] deTools = { new PenTool()         
-                                , new LijnTool()
-                                , new RechthoekTool()
-                                , new VolRechthoekTool()
-                                , new TekstTool()
-                                , new GumTool()
-                                };
-        String[] deKleuren = { "Black", "Red", "Green", "Blue", "Yellow", "Magenta", "Cyan" };
+        ISchetsTool[] deTools = {
+            new PenTool(),
+            new LijnTool(),
+            new RechthoekTool(),
+            new VolRechthoekTool(),
+            new TekstTool(),
+            new GumTool()
+        };
+
+        string[] deKleuren = { "Black", "Red", "Green", "Blue", "Yellow", "Magenta", "Cyan" };
 
         this.ClientSize = new Size(700, 500);
         huidigeTool = deTools[0];
 
-        schetscontrol = new SchetsControl();
-        schetscontrol.Location = new Point(64, 10);
-        schetscontrol.MouseDown += (object o, MouseEventArgs mea) =>
-                                    {   vast=true;  
-                                        huidigeTool.MuisVast(schetscontrol, mea.Location); 
-                                    };
-        schetscontrol.MouseMove += (object o, MouseEventArgs mea) =>
-                                    {   if (vast)
-                                        huidigeTool.MuisDrag(schetscontrol, mea.Location); 
-                                    };
-        schetscontrol.MouseUp   += (object o, MouseEventArgs mea) =>
-                                    {   if (vast)
-                                        huidigeTool.MuisLos (schetscontrol, mea.Location);
-                                        vast = false; 
-                                    };
-        schetscontrol.KeyPress +=  (object o, KeyPressEventArgs kpea) => 
-                                    {   huidigeTool.Letter  (schetscontrol, kpea.KeyChar); 
-                                    };
+        schetscontrol = new SchetsControl
+        {
+            Location = new Point(64, 10)
+        };
+
+        schetscontrol.MouseDown += (s, e) =>
+        {
+            vast = true;
+            huidigeTool.MuisVast(schetscontrol, e.Location);
+        };
+
+        schetscontrol.MouseMove += (s, e) =>
+        {
+            if (vast)
+                huidigeTool.MuisDrag(schetscontrol, e.Location);
+        };
+
+        schetscontrol.MouseUp += (s, e) =>
+        {
+            if (vast)
+                huidigeTool.MuisLos(schetscontrol, e.Location);
+            vast = false;
+        };
+
+        schetscontrol.KeyPress += (s, e) =>
+        {
+            huidigeTool.Letter(schetscontrol, e.KeyChar);
+        };
+
         this.Controls.Add(schetscontrol);
 
-        menuStrip = new MenuStrip();
-        menuStrip.Visible = false;
+        menuStrip = new MenuStrip
+        {
+            Visible = false
+        };
         this.Controls.Add(menuStrip);
-        this.maakFileMenu();
-        this.maakToolMenu(deTools);
-        this.maakActieMenu(deKleuren);
-        this.maakToolButtons(deTools);
-        this.maakActieButtons(deKleuren);
-        this.Resize += this.veranderAfmeting;
-        this.veranderAfmeting(null, null);
+
+        MaakFileMenu();
+        MaakToolMenu(deTools);
+        MaakActieMenu(deKleuren);
+        MaakToolButtons(deTools);
+        MaakActieButtons(deKleuren);
+
+        this.Resize += VeranderAfmeting;
+        VeranderAfmeting(null, null);
     }
 
-    private void maakFileMenu()
-    {   
-        ToolStripMenuItem menu = new ToolStripMenuItem("File");
-        menu.MergeAction = MergeAction.MatchOnly;
-        menu.DropDownItems.Add("Sluiten", null, this.afsluiten);
+    private void VeranderAfmeting(object sender, EventArgs e)
+    {
+        schetscontrol.Size = new Size(this.ClientSize.Width - 70, this.ClientSize.Height - 50);
+        paneel.Location = new Point(64, this.ClientSize.Height - 30);
+    }
+
+    private void KlikToolMenu(object sender, EventArgs e)
+    {
+        huidigeTool = (ISchetsTool)((ToolStripMenuItem)sender).Tag;
+    }
+
+    private void KlikToolButton(object sender, EventArgs e)
+    {
+        huidigeTool = (ISchetsTool)((RadioButton)sender).Tag;
+    }
+
+    private void Afsluiten(object sender, EventArgs e)
+    {
+        this.Close();
+    }
+
+    private void MaakFileMenu()
+    {
+        ToolStripMenuItem menu = new ToolStripMenuItem("File")
+        {
+            MergeAction = MergeAction.MatchOnly
+        };
+
+        menu.DropDownItems.Add("Sluiten", null, Afsluiten);
         menuStrip.Items.Add(menu);
     }
 
-    private void maakToolMenu(ICollection<ISchetsTool> tools)
-    {   
+    private void MaakToolMenu(ICollection<ISchetsTool> tools)
+    {
         ToolStripMenuItem menu = new ToolStripMenuItem("Tool");
+
         foreach (ISchetsTool tool in tools)
-        {   ToolStripItem item = new ToolStripMenuItem();
-            item.Tag = tool;
-            item.Text = tool.ToString();
-            item.Image = new Bitmap($"../../../Icons/{tool.ToString()}.png");
-            item.Click += this.klikToolMenu;
+        {
+            ToolStripItem item = new ToolStripMenuItem
+            {
+                Tag = tool,
+                Text = tool.ToString(),
+                Image = new Bitmap($"../../../Icons/{tool}.png")
+            };
+
+            item.Click += KlikToolMenu;
             menu.DropDownItems.Add(item);
         }
+
         menuStrip.Items.Add(menu);
     }
 
-    private void maakActieMenu(String[] kleuren)
-    {   
+    private void MaakActieMenu(string[] kleuren)
+    {
         ToolStripMenuItem menu = new ToolStripMenuItem("Actie");
-        menu.DropDownItems.Add("Clear", null, schetscontrol.Schoon );
-        menu.DropDownItems.Add("Roteer", null, schetscontrol.Roteer );
+        menu.DropDownItems.Add("Clear", null, schetscontrol.Schoon);
+        menu.DropDownItems.Add("Roteer", null, schetscontrol.Roteer);
+
         ToolStripMenuItem submenu = new ToolStripMenuItem("Kies kleur");
         foreach (string k in kleuren)
+        {
             submenu.DropDownItems.Add(k, null, schetscontrol.VeranderKleurViaMenu);
+        }
+
         menu.DropDownItems.Add(submenu);
         menuStrip.Items.Add(menu);
     }
 
-    private void maakToolButtons(ICollection<ISchetsTool> tools)
+    private void MaakToolButtons(ICollection<ISchetsTool> tools)
     {
         int t = 0;
+
         foreach (ISchetsTool tool in tools)
         {
-            RadioButton b = new RadioButton();
-            b.Appearance = Appearance.Button;
-            b.Size = new Size(45, 62);
-            b.Location = new Point(10, 10 + t * 62);
-            b.Tag = tool;
-            b.Text = tool.ToString();
-            b.Image = new Bitmap($"../../../Icons/{tool.ToString()}.png");
-            b.TextAlign = ContentAlignment.TopCenter;
-            b.ImageAlign = ContentAlignment.BottomCenter;
-            b.Click += this.klikToolButton;
+            RadioButton b = new RadioButton
+            {
+                Appearance = Appearance.Button,
+                Size = new Size(45, 62),
+                Location = new Point(10, 10 + t * 62),
+                Tag = tool,
+                Text = tool.ToString(),
+                Image = new Bitmap($"../../../Icons/{tool}.png"),
+                TextAlign = ContentAlignment.TopCenter,
+                ImageAlign = ContentAlignment.BottomCenter
+            };
+
+            b.Click += KlikToolButton;
             this.Controls.Add(b);
+
             if (t == 0) b.Select();
             t++;
         }
     }
 
-    private void maakActieButtons(String[] kleuren)
-    {   
-        paneel = new Panel(); this.Controls.Add(paneel);
-        paneel.Size = new Size(600, 24);
-            
-        Button clear = new Button(); paneel.Controls.Add(clear);
-        clear.Text = "Clear";  
-        clear.Location = new Point(  0, 0); 
-        clear.Click += schetscontrol.Schoon;        
-            
-        Button rotate = new Button(); paneel.Controls.Add(rotate);
-        rotate.Text = "Rotate"; 
-        rotate.Location = new Point( 80, 0); 
-        rotate.Click += schetscontrol.Roteer; 
-           
-        Label penkleur = new Label(); paneel.Controls.Add(penkleur);
-        penkleur.Text = "Penkleur:"; 
-        penkleur.Location = new Point(180, 3); 
-        penkleur.AutoSize = true;               
-            
-        ComboBox cbb = new ComboBox(); paneel.Controls.Add(cbb);
-        cbb.Location = new Point(240, 0); 
-        cbb.DropDownStyle = ComboBoxStyle.DropDownList; 
+    private void MaakActieButtons(string[] kleuren)
+    {
+        paneel = new Panel
+        {
+            Size = new Size(600, 24)
+        };
+        this.Controls.Add(paneel);
+
+        Button clear = new Button
+        {
+            Text = "Clear",
+            Location = new Point(0, 0)
+        };
+        clear.Click += schetscontrol.Schoon;
+        paneel.Controls.Add(clear);
+
+        Button rotate = new Button
+        {
+            Text = "Rotate",
+            Location = new Point(80, 0)
+        };
+        rotate.Click += schetscontrol.Roteer;
+        paneel.Controls.Add(rotate);
+
+        Label penkleur = new Label
+        {
+            Text = "Penkleur:",
+            Location = new Point(180, 3),
+            AutoSize = true
+        };
+        paneel.Controls.Add(penkleur);
+
+        ComboBox cbb = new ComboBox
+        {
+            Location = new Point(240, 0),
+            DropDownStyle = ComboBoxStyle.DropDownList
+        };
         cbb.SelectedValueChanged += schetscontrol.VeranderKleur;
         foreach (string k in kleuren)
+        {
             cbb.Items.Add(k);
+        }
         cbb.SelectedIndex = 0;
+        paneel.Controls.Add(cbb);
     }
 }
