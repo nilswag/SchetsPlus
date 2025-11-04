@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Imaging;
 
 public class Schets
 {
@@ -16,6 +17,11 @@ public class Schets
         get { return Graphics.FromImage(bitmap); }
     }
 
+    public void SlaOp(string path, ImageFormat format)
+    {
+        bitmap.Save(path, format);
+    }
+
     public void VeranderAfmeting(Size sz)
     {
         if (sz.Width > bitmap.Width || sz.Height > bitmap.Height)
@@ -25,11 +31,9 @@ public class Schets
                 Math.Max(sz.Height, bitmap.Height)
             );
 
-            using (Graphics gr = Graphics.FromImage(nieuw))
-            {
-                gr.FillRectangle(Brushes.White, 0, 0, nieuw.Width, nieuw.Height);
-                gr.DrawImage(bitmap, 0, 0);
-            }
+            Graphics gr = Graphics.FromImage(nieuw);
+            gr.FillRectangle(Brushes.White, 0, 0, nieuw.Width, nieuw.Height);
+            gr.DrawImage(bitmap, 0, 0);
 
             bitmap = nieuw;
         }
@@ -42,10 +46,8 @@ public class Schets
 
     public void Schoon()
     {
-        using (Graphics gr = Graphics.FromImage(bitmap))
-        {
-            gr.FillRectangle(Brushes.White, 0, 0, bitmap.Width, bitmap.Height);
-        }
+        Graphics gr = Graphics.FromImage(bitmap);
+        gr.FillRectangle(Brushes.White, 0, 0, bitmap.Width, bitmap.Height);
     }
 
     public void Roteer()

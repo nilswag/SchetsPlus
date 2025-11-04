@@ -47,10 +47,8 @@ public class SchetsEditor : Form
 
     private void Nieuw(object sender, EventArgs e)
     {
-        SchetsWin s = new SchetsWin
-        {
-            MdiParent = this
-        };
+        SchetsWin s = new SchetsWin();
+        s.MdiParent = this;
         s.Show();
     }
 

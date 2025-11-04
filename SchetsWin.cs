@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Windows.Forms;
 
 public class SchetsWin : Form
@@ -10,6 +11,9 @@ public class SchetsWin : Form
     private ISchetsTool huidigeTool;
     private Panel paneel;
     private bool vast;
+
+    private bool opgeslagen;
+    public bool Opeslagen { get { return opgeslagen; } set { opgeslagen = value; } }
 
     public SchetsWin()
     {
@@ -29,10 +33,8 @@ public class SchetsWin : Form
         this.ClientSize = new Size(700, 500);
         huidigeTool = deTools[0];
 
-        schetscontrol = new SchetsControl
-        {
-            Location = new Point(64, 10)
-        };
+        schetscontrol = new SchetsControl(this);
+        schetscontrol.Location = new Point(64, 10);
 
         schetscontrol.MouseDown += (s, e) =>
         {
@@ -60,10 +62,8 @@ public class SchetsWin : Form
 
         this.Controls.Add(schetscontrol);
 
-        menuStrip = new MenuStrip
-        {
-            Visible = false
-        };
+        menuStrip = new MenuStrip();
+        menuStrip.Visible = false;
         this.Controls.Add(menuStrip);
 
         MaakFileMenu();
@@ -82,6 +82,19 @@ public class SchetsWin : Form
         paneel.Location = new Point(64, this.ClientSize.Height - 30);
     }
 
+    private void Opslaan(object sender, EventArgs e)
+    {
+        SaveFileDialog path = new SaveFileDialog();
+        path.FileName = "untitled";
+        path.Filter = "PNG (*.png)|*.png|JPG (*.jpg,*.jpeg)|*.jpg;*.jpeg|BMP (*.bmp)|*.bmp";
+        path.AddExtension = true;
+        if (path.ShowDialog() == DialogResult.OK)
+        {
+            schetscontrol.Schets.SlaOp(path.FileName, ImageFormat.Png);
+            opgeslagen = true;
+        }
+    }
+
     private void KlikToolMenu(object sender, EventArgs e)
     {
         huidigeTool = (ISchetsTool)((ToolStripMenuItem)sender).Tag;
@@ -94,17 +107,28 @@ public class SchetsWin : Form
 
     private void Afsluiten(object sender, EventArgs e)
     {
+        if (!opgeslagen)
+        {
+            DialogResult result = MessageBox.Show(
+                "Het plaatje is niet opgeslagen, weet je zeker dat je wil afsluiten?",
+                "Plaatje is nog niet opgeslagen",
+                MessageBoxButtons.OKCancel,
+                MessageBoxIcon.Warning
+            );
+
+            if (result == DialogResult.Cancel) return;
+        }
+        
         this.Close();
     }
 
     private void MaakFileMenu()
     {
-        ToolStripMenuItem menu = new ToolStripMenuItem("File")
-        {
-            MergeAction = MergeAction.MatchOnly
-        };
+        ToolStripMenuItem menu = new ToolStripMenuItem("File");
+        menu.MergeAction = MergeAction.MatchOnly;
 
         menu.DropDownItems.Add("Sluiten", null, Afsluiten);
+        menu.DropDownItems.Add("Opslaan als", null, Opslaan);
         menuStrip.Items.Add(menu);
     }
 
@@ -114,12 +138,10 @@ public class SchetsWin : Form
 
         foreach (ISchetsTool tool in tools)
         {
-            ToolStripItem item = new ToolStripMenuItem
-            {
-                Tag = tool,
-                Text = tool.ToString(),
-                // Image = new Bitmap($"../../../Icons/{tool}.png")
-            };
+            ToolStripItem item = new ToolStripMenuItem();
+            item.Tag = tool;
+            item.Text = tool.ToString();
+            // item.Image = new Bitmap($"../../../Icons/{tool}.png");
 
             item.Click += KlikToolMenu;
             menu.DropDownItems.Add(item);
@@ -150,17 +172,15 @@ public class SchetsWin : Form
 
         foreach (ISchetsTool tool in tools)
         {
-            RadioButton b = new RadioButton
-            {
-                Appearance = Appearance.Button,
-                Size = new Size(45, 62),
-                Location = new Point(10, 10 + t * 62),
-                Tag = tool,
-                Text = tool.ToString(),
-                // Image = new Bitmap($"../../../Icons/{tool}.png"),
-                TextAlign = ContentAlignment.TopCenter,
-                ImageAlign = ContentAlignment.BottomCenter
-            };
+            RadioButton b = new RadioButton();
+            b.Appearance = Appearance.Button;
+            b.Size = new Size(45, 62);
+            b.Location = new Point(10, 10 + t * 62);
+            b.Tag = tool;
+            b.Text = tool.ToString();
+            // b.Image = new Bitmap($"../../../Icons/{tool}.png");
+            b.TextAlign = ContentAlignment.TopCenter;
+            b.ImageAlign = ContentAlignment.BottomCenter;
 
             b.Click += KlikToolButton;
             this.Controls.Add(b);
@@ -172,41 +192,31 @@ public class SchetsWin : Form
 
     private void MaakActieButtons(string[] kleuren)
     {
-        paneel = new Panel
-        {
-            Size = new Size(600, 24)
-        };
+        paneel = new Panel();
+        paneel.Size = new Size(600, 24);
         this.Controls.Add(paneel);
 
-        Button clear = new Button
-        {
-            Text = "Clear",
-            Location = new Point(0, 0)
-        };
+        Button clear = new Button();
+        clear.Text = "Clear";
+        clear.Location = new Point(0, 0);
         clear.Click += schetscontrol.Schoon;
         paneel.Controls.Add(clear);
 
-        Button rotate = new Button
-        {
-            Text = "Rotate",
-            Location = new Point(80, 0)
-        };
+        Button rotate = new Button();
+        rotate.Text = "Rotate";
+        rotate.Location = new Point(80, 0);
         rotate.Click += schetscontrol.Roteer;
         paneel.Controls.Add(rotate);
 
-        Label penkleur = new Label
-        {
-            Text = "Penkleur:",
-            Location = new Point(180, 3),
-            AutoSize = true
-        };
+        Label penkleur = new Label();
+        penkleur.Text = "Penkleur:";
+        penkleur.Location = new Point(180, 3);
+        penkleur.AutoSize = true;
         paneel.Controls.Add(penkleur);
 
-        ComboBox cbb = new ComboBox
-        {
-            Location = new Point(240, 0),
-            DropDownStyle = ComboBoxStyle.DropDownList
-        };
+        ComboBox cbb = new ComboBox();
+        cbb.Location = new Point(240, 0);
+        cbb.DropDownStyle = ComboBoxStyle.DropDownList;
         cbb.SelectedValueChanged += schetscontrol.VeranderKleur;
         foreach (string k in kleuren)
         {

@@ -7,12 +7,13 @@ public class SchetsControl : UserControl
 {
     private readonly Schets schets;
     private Color penkleur;
+    private SchetsWin win;
 
-    public Color PenKleur => penkleur;
+    public Color PenKleur { get { return penkleur; } }
 
-    public Schets Schets => schets;
+    public Schets Schets { get { return schets; } }
 
-    public SchetsControl()
+    public SchetsControl(SchetsWin win)
     {
         this.BorderStyle = BorderStyle.Fixed3D;
         this.schets = new Schets();
@@ -20,6 +21,7 @@ public class SchetsControl : UserControl
         this.Resize += VeranderAfmeting;
 
         VeranderAfmeting(null, null);
+        this.win = win;
     }
 
     protected override void OnPaintBackground(PaintEventArgs e)
@@ -30,6 +32,7 @@ public class SchetsControl : UserControl
     private void Teken(object sender, PaintEventArgs e)
     {
         schets.Teken(e.Graphics);
+        win.Opeslagen = false;
     }
 
     private void VeranderAfmeting(object sender, EventArgs e)
