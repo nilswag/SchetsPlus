@@ -1,6 +1,7 @@
 using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Security.Policy;
 using System.Windows.Forms;
 
 public interface ISchetsTool
@@ -153,5 +154,31 @@ public class GumTool : PenTool
     public override void Bezig(Graphics g, Point p1, Point p2)
     {
         g.DrawLine(MaakPen(Brushes.White, 7), p1, p2);
+    }
+}
+
+public class CirkelTool : TweepuntTool
+{
+    public override string ToString()
+    {
+        return "cirkel";
+    }
+
+    public override void Bezig(Graphics g, Point p1, Point p2)
+    {
+        g.DrawEllipse(MaakPen(kwast, 3), Punten2Rechthoek(p1, p2));
+    }
+}
+
+public class VolCirkelTool : CirkelTool
+{
+    public override string ToString()
+    {
+        return "volle cirkel";
+    }
+
+    public override void Bezig(Graphics g, Point p1, Point p2)
+    {
+        g.FillEllipse(kwast, Punten2Rechthoek(p1, p2));
     }
 }

@@ -19,7 +19,9 @@ public class SchetsWin : Form
             new RechthoekTool(),
             new VolRechthoekTool(),
             new TekstTool(),
-            new GumTool()
+            new GumTool(),
+            new CirkelTool(),
+            new VolCirkelTool()
         };
 
         string[] deKleuren = { "Black", "Red", "Green", "Blue", "Yellow", "Magenta", "Cyan" };
@@ -116,7 +118,7 @@ public class SchetsWin : Form
             {
                 Tag = tool,
                 Text = tool.ToString(),
-                Image = new Bitmap($"../../../Icons/{tool}.png")
+                // Image = new Bitmap($"../../../Icons/{tool}.png")
             };
 
             item.Click += KlikToolMenu;
@@ -155,7 +157,7 @@ public class SchetsWin : Form
                 Location = new Point(10, 10 + t * 62),
                 Tag = tool,
                 Text = tool.ToString(),
-                Image = new Bitmap($"../../../Icons/{tool}.png"),
+                // Image = new Bitmap($"../../../Icons/{tool}.png"),
                 TextAlign = ContentAlignment.TopCenter,
                 ImageAlign = ContentAlignment.BottomCenter
             };
