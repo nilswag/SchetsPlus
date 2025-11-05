@@ -15,6 +15,8 @@ public abstract class TekenbaarElement
     public abstract void Draw(Graphics g);
 
     public abstract bool HitTest(Point p);
+
+    public abstract void Rotate();
 }
 
 [Serializable]
@@ -67,13 +69,30 @@ public class LijnElement : TekenbaarElement
         return distSq <= tolerance * tolerance;
     }
 
+    private Point RotatePoint(Point p, Point center)
+    {
+        int x = center.X + (p.Y - center.Y);
+        int y = center.Y - (p.X - center.X);
+        return new Point(x, y);
+    }
+
+    public override void Rotate()
+    {
+        Point center = new Point(
+            (P1.X + P2.X) / 2,
+            (P1.Y + P2.Y) / 2
+        );
+        P1 = RotatePoint(P1, center);
+        P2 = RotatePoint(P2, center);
+    }
+
 }
 
 [Serializable]
 public class RechthoekElement : TekenbaarElement
 {
     public Rectangle Rect { get; set; }
-    private bool Filled { get; set; }
+    public bool Filled { get; set; }
 
     public RechthoekElement(Rectangle rect, Color kleur, bool filled)
         : base(kleur)
@@ -96,34 +115,29 @@ public class RechthoekElement : TekenbaarElement
     {
         return Rect.Contains(p);
     }
+
+    public override void Rotate()
+    {
+
+    }
 }
 
 [Serializable]
-public class CirkelElement : TekenbaarElement
+public class CirkelElement : RechthoekElement
 {
-    public Rectangle Bounds { get; set; }
-    public bool Filled { get; set; }
 
     public CirkelElement(Rectangle bounds, Color kleur, bool filled)
-        : base(kleur)
-    {
-        Bounds = bounds;
-        Filled = filled;
-    }
+        : base(bounds, kleur, filled)
+    { }
 
     public override void Draw(Graphics g)
     {
         using (Brush b = new SolidBrush(Kleur))
         using (Pen p = new Pen(Kleur, 3))
         {
-            if (Filled) g.FillEllipse(b, Bounds);
-            else g.DrawEllipse(p, Bounds);
+            if (Filled) g.FillEllipse(b, Rect);
+            else g.DrawEllipse(p, Rect);
         }
-    }
-
-    public override bool HitTest(Point p)
-    {
-        return Bounds.Contains(p);
     }
 }
 
@@ -158,6 +172,11 @@ public class TekstElement : TekenbaarElement
         SizeF size = g.MeasureString(Tekst, font, Locatie, StringFormat.GenericTypographic);
         RectangleF bounds = new RectangleF(Locatie, size);
         return bounds.Contains(p);
+    }
+
+    public override void Rotate()
+    {
+        throw new NotImplementedException();
     }
 }
 

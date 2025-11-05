@@ -46,32 +46,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\ruudg\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "C:\\Users\\nilsw\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-<<<<<<< HEAD
-      "projectUniqueName": "D:\\GitHub\\SchetsPlus\\schetseditor.csproj",
-      "projectName": "schetseditor",
-      "projectPath": "D:\\GitHub\\SchetsPlus\\schetseditor.csproj",
-      "packagesPath": "C:\\Users\\ruudg\\.nuget\\packages\\",
-      "outputPath": "D:\\GitHub\\SchetsPlus\\obj\\",
-=======
       "projectUniqueName": "D:\\Documents\\Development\\SchetsPlus\\schetseditor.csproj",
       "projectName": "schetseditor",
       "projectPath": "D:\\Documents\\Development\\SchetsPlus\\schetseditor.csproj",
       "packagesPath": "C:\\Users\\nilsw\\.nuget\\packages\\",
       "outputPath": "D:\\Documents\\Development\\SchetsPlus\\obj\\",
->>>>>>> 9f271ec761a5f4cfe899131089679e922cda54f5
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
-        "C:\\Users\\ruudg\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Users\\nilsw\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -127,7 +114,7 @@
             "privateAssets": "none"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.305/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.306/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

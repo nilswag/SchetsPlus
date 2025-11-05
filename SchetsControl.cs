@@ -58,6 +58,8 @@ public class SchetsControl : UserControl
     public void Roteer(object sender, EventArgs e)
     {
         schets.VeranderAfmeting(new Size(this.ClientSize.Height, this.ClientSize.Width));
+        foreach (TekenbaarElement el in schets.Elementen)
+            el.Rotate();
         schets.Roteer();
         this.Invalidate();
     }
