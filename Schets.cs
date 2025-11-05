@@ -11,6 +11,8 @@ public class Schets
 
     public List<TekenbaarElement> Elementen { get { return elementen; } set { elementen = value; } }
 
+    public Bitmap Bitmap { get { return bitmap; } }
+
 
     public Schets()
     {

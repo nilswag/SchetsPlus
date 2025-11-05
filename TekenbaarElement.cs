@@ -16,7 +16,7 @@ public abstract class TekenbaarElement
 
     public abstract bool HitTest(Point p);
 
-    public abstract void Rotate();
+    public abstract void Rotate(Point center);
 }
 
 [Serializable]
@@ -76,12 +76,8 @@ public class LijnElement : TekenbaarElement
         return new Point(x, y);
     }
 
-    public override void Rotate()
+    public override void Rotate(Point center)
     {
-        Point center = new Point(
-            (P1.X + P2.X) / 2,
-            (P1.Y + P2.Y) / 2
-        );
         P1 = RotatePoint(P1, center);
         P2 = RotatePoint(P2, center);
     }
@@ -116,9 +112,18 @@ public class RechthoekElement : TekenbaarElement
         return Rect.Contains(p);
     }
 
-    public override void Rotate()
+    public override void Rotate(Point center)
     {
-
+        Point rectCenter = new Point(Rect.X + Rect.Width / 2, Rect.Y + Rect.Height / 2);
+        int dx = rectCenter.X - center.X;
+        int dy = rectCenter.Y - center.Y;
+        var newCenter = new Point(center.X + dy, center.Y - dx);
+        Rect = new Rectangle(
+            newCenter.X - Rect.Height / 2,
+            newCenter.Y - Rect.Width / 2,
+            Rect.Height,
+            Rect.Width
+        );
     }
 }
 
@@ -142,17 +147,15 @@ public class CirkelElement : RechthoekElement
 }
 
 [Serializable]
-public class TekstElement : TekenbaarElement
+public class TekstElement : RechthoekElement
 {
     private string Tekst;
-    private Point Locatie;
     private float Grootte;
 
-    public TekstElement(string tekst, Point locatie, Color kleur, float grootte = 40f)
-        : base(kleur)
+    public TekstElement(string tekst, Point locatie, Color kleur, int grootte = 40)
+        : base(new Rectangle(locatie.X, locatie.Y, grootte, grootte), kleur, false)
     {
         Tekst = tekst;
-        Locatie = locatie;
         Grootte = grootte;
     }
 
@@ -160,7 +163,7 @@ public class TekstElement : TekenbaarElement
     {
         Font font = new Font("Tahoma", Grootte);
         Brush b = new SolidBrush(Kleur);
-        g.DrawString(Tekst, font, b, Locatie, StringFormat.GenericTypographic);
+        g.DrawString(Tekst, font, b, Rect.X, Rect.Y, StringFormat.GenericTypographic);
 
     }
 
@@ -169,14 +172,8 @@ public class TekstElement : TekenbaarElement
         Bitmap temp = new Bitmap(1, 1);
         Graphics g = Graphics.FromImage(temp);
         Font font = new Font("Tahoma", Grootte);
-        SizeF size = g.MeasureString(Tekst, font, Locatie, StringFormat.GenericTypographic);
-        RectangleF bounds = new RectangleF(Locatie, size);
-        return bounds.Contains(p);
-    }
-
-    public override void Rotate()
-    {
-        throw new NotImplementedException();
+        SizeF size = g.MeasureString(Tekst, font, new Point(Rect.X, Rect.Y), StringFormat.GenericTypographic);
+        return Rect.Contains(p);
     }
 }
 
