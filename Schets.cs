@@ -7,6 +7,9 @@ public class Schets
 {
     private Bitmap bitmap;
 
+    public List<TekenbaarElement> elementen = new List<TekenbaarElement>();
+
+
     public Schets()
     {
         bitmap = new Bitmap(1, 1);
@@ -39,15 +42,26 @@ public class Schets
         }
     }
 
+    public void Herteken(Graphics g)
+    {
+        g.Clear(Color.White);
+        foreach (var el in elementen)
+        {
+            el.Draw(g);
+        }
+    }
+
     public void Teken(Graphics gr)
     {
-        gr.DrawImage(bitmap, 0, 0);
+        // Redraws from object list instead of static bitmap
+        Herteken(gr);
     }
 
     public void Schoon()
     {
         Graphics gr = Graphics.FromImage(bitmap);
-        gr.FillRectangle(Brushes.White, 0, 0, bitmap.Width, bitmap.Height);
+        elementen = [];
+        // gr.FillRectangle(Brushes.White, 0, 0, bitmap.Width, bitmap.Height);
     }
 
     public void Roteer()

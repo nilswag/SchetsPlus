@@ -1,0 +1,15 @@
+D:\GitHub\SchetsPlus\bin\Debug\net8.0-windows\schetseditor.exe
+D:\GitHub\SchetsPlus\bin\Debug\net8.0-windows\schetseditor.deps.json
+D:\GitHub\SchetsPlus\bin\Debug\net8.0-windows\schetseditor.runtimeconfig.json
+D:\GitHub\SchetsPlus\bin\Debug\net8.0-windows\schetseditor.dll
+D:\GitHub\SchetsPlus\bin\Debug\net8.0-windows\schetseditor.pdb
+D:\GitHub\SchetsPlus\obj\Debug\net8.0-windows\schetseditor.GeneratedMSBuildEditorConfig.editorconfig
+D:\GitHub\SchetsPlus\obj\Debug\net8.0-windows\schetseditor.AssemblyInfoInputs.cache
+D:\GitHub\SchetsPlus\obj\Debug\net8.0-windows\schetseditor.AssemblyInfo.cs
+D:\GitHub\SchetsPlus\obj\Debug\net8.0-windows\schetseditor.csproj.CoreCompileInputs.cache
+D:\GitHub\SchetsPlus\obj\Debug\net8.0-windows\schetseditor.sourcelink.json
+D:\GitHub\SchetsPlus\obj\Debug\net8.0-windows\schetseditor.dll
+D:\GitHub\SchetsPlus\obj\Debug\net8.0-windows\refint\schetseditor.dll
+D:\GitHub\SchetsPlus\obj\Debug\net8.0-windows\schetseditor.pdb
+D:\GitHub\SchetsPlus\obj\Debug\net8.0-windows\schetseditor.genruntimeconfig.cache
+D:\GitHub\SchetsPlus\obj\Debug\net8.0-windows\ref\schetseditor.dll

@@ -52,6 +52,7 @@ public class TekstTool : StartpuntTool
                 // gr.DrawRectangle(Pens.Black, startpunt.X, startpunt.Y, sz.Width, sz.Height);
                 startpunt.X += (int)sz.Width;
             }
+            // s.Schets.elementen.Add(new TekstElement());
             s.Invalidate();
         }
     }
@@ -87,12 +88,6 @@ public abstract class TweepuntTool : StartpuntTool
         Bezig(s.CreateGraphics(), startpunt, p);
     }
 
-    public override void MuisLos(SchetsControl s, Point p)
-    {
-        base.MuisLos(s, p);
-        Compleet(s.MaakBitmapGraphics(), startpunt, p);
-        s.Invalidate();
-    }
 
     public override void Letter(SchetsControl s, char c) { }
 
@@ -106,16 +101,26 @@ public abstract class TweepuntTool : StartpuntTool
 
 public class RechthoekTool : TweepuntTool
 {
+    protected virtual bool Filled => false;
     public override string ToString() => "kader";
 
     public override void Bezig(Graphics g, Point p1, Point p2)
     {
         g.DrawRectangle(MaakPen(kwast, 3), Punten2Rechthoek(p1, p2));
     }
+
+    public override void MuisLos(SchetsControl s, Point p)
+    {
+        var rect = Punten2Rechthoek(startpunt, p);
+        s.Schets.elementen.Add(new RechthoekElement(rect, s.PenKleur, Filled));
+        s.Invalidate();
+    }
+
 }
 
 public class VolRechthoekTool : RechthoekTool
 {
+    protected override bool Filled => true;
     public override string ToString() => "vlak";
 
     public override void Compleet(Graphics g, Point p1, Point p2)
@@ -131,6 +136,14 @@ public class LijnTool : TweepuntTool
     public override void Bezig(Graphics g, Point p1, Point p2)
     {
         g.DrawLine(MaakPen(kwast, 3), p1, p2);
+    }
+
+    public override void MuisLos(SchetsControl s, Point p)
+    {
+        base.MuisLos(s, p);
+        // Compleet(s.MaakBitmapGraphics(), startpunt, p);
+        s.Schets.elementen.Add(new LijnElement(startpunt, p, s.PenKleur));
+        s.Invalidate();
     }
 }
 
@@ -149,14 +162,34 @@ public class GumTool : PenTool
 {
     public override string ToString() => "gum";
 
-    public override void Bezig(Graphics g, Point p1, Point p2)
+    public override void MuisVast(SchetsControl s, Point p)
     {
-        g.DrawLine(MaakPen(Brushes.White, 7), p1, p2);
+        base.MuisVast(s, p);
+        DeleteHit(s, p);
+    }
+
+    public override void MuisDrag(SchetsControl s, Point p)
+    {
+        DeleteHit(s, p);
+    }
+
+    public override void MuisLos(SchetsControl s, Point p)
+    {
+        DeleteHit(s, p);
+    }
+
+    private void DeleteHit(SchetsControl s, Point p)
+    {
+        // Remove all elements that the point touches
+        s.Schets.elementen.RemoveAll(el => el.HitTest(p));
+        s.Invalidate();
     }
 }
 
 public class CirkelTool : TweepuntTool
 {
+    protected virtual bool Filled => false;
+
     public override string ToString()
     {
         return "cirkel";
@@ -166,10 +199,19 @@ public class CirkelTool : TweepuntTool
     {
         g.DrawEllipse(MaakPen(kwast, 3), Punten2Rechthoek(p1, p2));
     }
+
+    public override void MuisLos(SchetsControl s, Point p)
+    {
+        var rect = Punten2Rechthoek(startpunt, p);
+        s.Schets.elementen.Add(new CirkelElement(rect, s.PenKleur, Filled));
+        s.Invalidate();
+    }
 }
 
 public class VolCirkelTool : CirkelTool
 {
+    protected override bool Filled => true;
+
     public override string ToString()
     {
         return "volle cirkel";

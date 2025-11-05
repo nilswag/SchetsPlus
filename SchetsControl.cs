@@ -15,6 +15,7 @@ public class SchetsControl : UserControl
 
     public SchetsControl(SchetsWin win)
     {
+        this.DoubleBuffered = true;
         this.BorderStyle = BorderStyle.Fixed3D;
         this.schets = new Schets();
         this.Paint += Teken;

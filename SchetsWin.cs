@@ -118,7 +118,7 @@ public class SchetsWin : Form
 
             if (result == DialogResult.Cancel) return;
         }
-        
+
         this.Close();
     }
 
@@ -141,7 +141,7 @@ public class SchetsWin : Form
             ToolStripItem item = new ToolStripMenuItem();
             item.Tag = tool;
             item.Text = tool.ToString();
-            item.Image = new Bitmap($"../../../Icons/{tool}.png");
+            // item.Image = new Bitmap($"../../../Icons/{tool}.png");
 
             item.Click += KlikToolMenu;
             menu.DropDownItems.Add(item);
@@ -178,7 +178,7 @@ public class SchetsWin : Form
             b.Location = new Point(10, 10 + t * 62);
             b.Tag = tool;
             b.Text = tool.ToString();
-            b.Image = new Bitmap($"../../../Icons/{tool}.png");
+            // b.Image = new Bitmap($"../../../Icons/{tool}.png");
             b.TextAlign = ContentAlignment.TopCenter;
             b.ImageAlign = ContentAlignment.BottomCenter;
 
