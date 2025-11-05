@@ -104,9 +104,8 @@ public class SchetsWin : Form
             if (path.FilterIndex == 4)
             {
                 SerializeTekenbareElementen(path.FileName);
-                return;
             }
-            schetscontrol.Schets.SlaOp(path.FileName, ImageFormat.Png);
+            else schetscontrol.Schets.SlaOp(path.FileName, ImageFormat.Png);
         }
     }
 

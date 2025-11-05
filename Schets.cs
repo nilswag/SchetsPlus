@@ -27,6 +27,7 @@ public class Schets
 
     public void SlaOp(string path, ImageFormat format)
     {
+        Teken(BitmapGraphics);
         bitmap.Save(path, format);
     }
 
@@ -55,7 +56,6 @@ public class Schets
 
     public void Herteken(Graphics g)
     {
-        g.Clear(Color.White);
         foreach (var el in elementen)
         {
             el.Draw(g);
