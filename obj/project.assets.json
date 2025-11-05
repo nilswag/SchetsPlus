@@ -51,11 +51,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\nilsw\\Documents\\development\\SchetsPlus\\schetseditor.csproj",
+      "projectUniqueName": "D:\\Documents\\Development\\SchetsPlus\\schetseditor.csproj",
       "projectName": "schetseditor",
-      "projectPath": "C:\\Users\\nilsw\\Documents\\development\\SchetsPlus\\schetseditor.csproj",
+      "projectPath": "D:\\Documents\\Development\\SchetsPlus\\schetseditor.csproj",
       "packagesPath": "C:\\Users\\nilsw\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\nilsw\\Documents\\development\\SchetsPlus\\obj\\",
+      "outputPath": "D:\\Documents\\Development\\SchetsPlus\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\nilsw\\AppData\\Roaming\\NuGet\\NuGet.Config",

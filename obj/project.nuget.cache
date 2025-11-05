@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "OYIgaG0flug=",
+  "dgSpecHash": "i8nz6F8MaDM=",
   "success": true,
-  "projectFilePath": "C:\\Users\\nilsw\\Documents\\development\\SchetsPlus\\schetseditor.csproj",
+  "projectFilePath": "D:\\Documents\\Development\\SchetsPlus\\schetseditor.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\nilsw\\.nuget\\packages\\protobuf-net.core\\3.2.56\\protobuf-net.core.3.2.56.nupkg.sha512"
   ],
