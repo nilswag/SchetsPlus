@@ -127,24 +127,38 @@ public class CirkelElement : TekenbaarElement
     }
 }
 
-// public class TekstElement : TekenbaarElement
-// {
-//     private string Tekst;
+[Serializable]
+public class TekstElement : TekenbaarElement
+{
+    private string Tekst;
+    private Point Locatie;
+    private float Grootte;
 
-//     public TekstElement(string tekst, Color kleur, bool filled)
-//         : base(kleur)
-//     {
-//         Tekst = tekst;
-//     }
+    public TekstElement(string tekst, Point locatie, Color kleur, float grootte = 40f)
+        : base(kleur)
+    {
+        Tekst = tekst;
+        Locatie = locatie;
+        Grootte = grootte;
+    }
 
-//     public override void Draw(Graphics g)
-//     {
-//         using (Brush b = new SolidBrush(Kleur))
-//         using (Pen p = new Pen(Kleur, 3))
-//         {
-//             if (Filled) g.FillEllipse(b, Bounds);
-//             else g.DrawEllipse(p, Bounds);
-//         }
-//     }
-// }
+    public override void Draw(Graphics g)
+    {
+        Font font = new Font("Tahoma", Grootte);
+        Brush b = new SolidBrush(Kleur);
+        g.DrawString(Tekst, font, b, Locatie, StringFormat.GenericTypographic);
+
+    }
+
+    public override bool HitTest(Point p)
+    {
+        Bitmap temp = new Bitmap(1, 1);
+        Graphics g = Graphics.FromImage(temp);
+        Font font = new Font("Tahoma", Grootte);
+        SizeF size = g.MeasureString(Tekst, font, Locatie, StringFormat.GenericTypographic);
+        RectangleF bounds = new RectangleF(Locatie, size);
+        return bounds.Contains(p);
+    }
+}
+
 

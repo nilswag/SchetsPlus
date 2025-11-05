@@ -53,7 +53,7 @@ public class Schets
 
     public void Herteken(Graphics g)
     {
-        //g.Clear(Color.White);
+        g.Clear(Color.White);
         foreach (var el in elementen)
         {
             el.Draw(g);
