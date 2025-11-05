@@ -82,7 +82,7 @@ public class SchetsWin : Form
         paneel.Location = new Point(64, this.ClientSize.Height - 30);
     }
 
-    private void Opslaan(object sender, EventArgs e)
+    private void Exporteer(object sender, EventArgs e)
     {
         SaveFileDialog path = new SaveFileDialog();
         path.FileName = "untitled";
@@ -90,7 +90,7 @@ public class SchetsWin : Form
         path.AddExtension = true;
         if (path.ShowDialog() == DialogResult.OK)
         {
-            schetscontrol.Schets.SlaOp(path.FileName, ImageFormat.Png);
+            schetscontrol.Schets.Exporteer(path.FileName, ImageFormat.Png);
             opgeslagen = true;
         }
     }
@@ -128,7 +128,7 @@ public class SchetsWin : Form
         menu.MergeAction = MergeAction.MatchOnly;
 
         menu.DropDownItems.Add("Sluiten", null, Afsluiten);
-        menu.DropDownItems.Add("Opslaan als", null, Opslaan);
+        menu.DropDownItems.Add("Exporteren als", null, Exporteer);
         menuStrip.Items.Add(menu);
     }
 
@@ -141,7 +141,7 @@ public class SchetsWin : Form
             ToolStripItem item = new ToolStripMenuItem();
             item.Tag = tool;
             item.Text = tool.ToString();
-            // item.Image = new Bitmap($"../../../Icons/{tool}.png");
+             item.Image = new Bitmap($"../../../Icons/{tool}.png");
 
             item.Click += KlikToolMenu;
             menu.DropDownItems.Add(item);
@@ -178,7 +178,7 @@ public class SchetsWin : Form
             b.Location = new Point(10, 10 + t * 62);
             b.Tag = tool;
             b.Text = tool.ToString();
-            // b.Image = new Bitmap($"../../../Icons/{tool}.png");
+             b.Image = new Bitmap($"../../../Icons/{tool}.png");
             b.TextAlign = ContentAlignment.TopCenter;
             b.ImageAlign = ContentAlignment.BottomCenter;
 

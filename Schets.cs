@@ -20,7 +20,7 @@ public class Schets
         get { return Graphics.FromImage(bitmap); }
     }
 
-    public void SlaOp(string path, ImageFormat format)
+    public void Exporteer(string path, ImageFormat format)
     {
         bitmap.Save(path, format);
     }
