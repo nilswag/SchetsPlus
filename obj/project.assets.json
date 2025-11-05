@@ -1,11 +1,49 @@
 {
   "version": 3,
   "targets": {
-    "net8.0-windows7.0": {}
+    "net8.0-windows7.0": {
+      "protobuf-net.Core/3.2.56": {
+        "type": "package",
+        "compile": {
+          "lib/net8.0/protobuf-net.Core.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0/protobuf-net.Core.dll": {
+            "related": ".xml"
+          }
+        }
+      }
+    }
   },
-  "libraries": {},
+  "libraries": {
+    "protobuf-net.Core/3.2.56": {
+      "sha512": "d6QOukTpDzs7zZv9tPnBZMtvHDNeHJQXUhMx54g4urUQsXK3oo9U70H9HvklYq7hlQ4A7AHJl7EVEqyCXXIl8Q==",
+      "type": "package",
+      "path": "protobuf-net.core/3.2.56",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net462/protobuf-net.Core.dll",
+        "lib/net462/protobuf-net.Core.xml",
+        "lib/net8.0/protobuf-net.Core.dll",
+        "lib/net8.0/protobuf-net.Core.xml",
+        "lib/netstandard2.0/protobuf-net.Core.dll",
+        "lib/netstandard2.0/protobuf-net.Core.xml",
+        "lib/netstandard2.1/protobuf-net.Core.dll",
+        "lib/netstandard2.1/protobuf-net.Core.xml",
+        "protobuf-net.core.3.2.56.nupkg.sha512",
+        "protobuf-net.core.nuspec",
+        "protobuf-net.png",
+        "readme.md"
+      ]
+    }
+  },
   "projectFileDependencyGroups": {
-    "net8.0-windows7.0": []
+    "net8.0-windows7.0": [
+      "protobuf-net.Core >= 3.2.56"
+    ]
   },
   "packageFolders": {
     "C:\\Users\\nilsw\\.nuget\\packages\\": {}
@@ -51,6 +89,12 @@
     "frameworks": {
       "net8.0-windows7.0": {
         "targetAlias": "net8.0-windows",
+        "dependencies": {
+          "protobuf-net.Core": {
+            "target": "Package",
+            "version": "[3.2.56, )"
+          }
+        },
         "imports": [
           "net461",
           "net462",

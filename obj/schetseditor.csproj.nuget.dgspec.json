@@ -45,6 +45,12 @@
       "frameworks": {
         "net8.0-windows7.0": {
           "targetAlias": "net8.0-windows",
+          "dependencies": {
+            "protobuf-net.Core": {
+              "target": "Package",
+              "version": "[3.2.56, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",

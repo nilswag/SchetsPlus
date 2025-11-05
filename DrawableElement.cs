@@ -1,6 +1,8 @@
 using System;
 using System.Drawing;
 
+
+[Serializable]
 public abstract class TekenbaarElement
 {
     public Color Kleur { get; set; }
@@ -15,10 +17,11 @@ public abstract class TekenbaarElement
     public abstract bool HitTest(Point p);
 }
 
+[Serializable]
 public class LijnElement : TekenbaarElement
 {
-    private Point P1;
-    private Point P2;
+    public Point P1 { get; set; }
+    public Point P2 { get; set; }
 
     public LijnElement(Point p1, Point p2, Color kleur)
         : base(kleur)
@@ -66,10 +69,11 @@ public class LijnElement : TekenbaarElement
 
 }
 
+[Serializable]
 public class RechthoekElement : TekenbaarElement
 {
-    private Rectangle Rect;
-    private bool Filled;
+    public Rectangle Rect { get; set; }
+    private bool Filled { get; set; }
 
     public RechthoekElement(Rectangle rect, Color kleur, bool filled)
         : base(kleur)
@@ -94,10 +98,11 @@ public class RechthoekElement : TekenbaarElement
     }
 }
 
+[Serializable]
 public class CirkelElement : TekenbaarElement
 {
-    private Rectangle Bounds;
-    private bool Filled;
+    public Rectangle Bounds { get; set; }
+    public bool Filled { get; set; }
 
     public CirkelElement(Rectangle bounds, Color kleur, bool filled)
         : base(kleur)

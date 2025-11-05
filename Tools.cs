@@ -1,3 +1,4 @@
+using ProtoBuf;
 using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -112,7 +113,7 @@ public class RechthoekTool : TweepuntTool
     public override void MuisLos(SchetsControl s, Point p)
     {
         var rect = Punten2Rechthoek(startpunt, p);
-        s.Schets.elementen.Add(new RechthoekElement(rect, s.PenKleur, Filled));
+        s.Schets.Elementen.Add(new RechthoekElement(rect, s.PenKleur, Filled));
         s.Invalidate();
     }
 
@@ -142,7 +143,7 @@ public class LijnTool : TweepuntTool
     {
         base.MuisLos(s, p);
         // Compleet(s.MaakBitmapGraphics(), startpunt, p);
-        s.Schets.elementen.Add(new LijnElement(startpunt, p, s.PenKleur));
+        s.Schets.Elementen.Add(new LijnElement(startpunt, p, s.PenKleur));
         s.Invalidate();
     }
 }
@@ -181,7 +182,7 @@ public class GumTool : PenTool
     private void DeleteHit(SchetsControl s, Point p)
     {
         // Remove all elements that the point touches
-        s.Schets.elementen.RemoveAll(el => el.HitTest(p));
+        s.Schets.Elementen.RemoveAll(el => el.HitTest(p));
         s.Invalidate();
     }
 }
@@ -203,7 +204,7 @@ public class CirkelTool : TweepuntTool
     public override void MuisLos(SchetsControl s, Point p)
     {
         var rect = Punten2Rechthoek(startpunt, p);
-        s.Schets.elementen.Add(new CirkelElement(rect, s.PenKleur, Filled));
+        s.Schets.Elementen.Add(new CirkelElement(rect, s.PenKleur, Filled));
         s.Invalidate();
     }
 }

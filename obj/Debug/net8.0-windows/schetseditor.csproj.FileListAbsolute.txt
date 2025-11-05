@@ -28,3 +28,6 @@ C:\Users\nilsw\Documents\development\SchetsPlus\obj\Debug\net8.0-windows\refint\
 C:\Users\nilsw\Documents\development\SchetsPlus\obj\Debug\net8.0-windows\schetseditor.pdb
 C:\Users\nilsw\Documents\development\SchetsPlus\obj\Debug\net8.0-windows\schetseditor.genruntimeconfig.cache
 C:\Users\nilsw\Documents\development\SchetsPlus\obj\Debug\net8.0-windows\ref\schetseditor.dll
+C:\Users\nilsw\Documents\development\SchetsPlus\bin\Debug\net8.0-windows\protobuf-net.Core.dll
+C:\Users\nilsw\Documents\development\SchetsPlus\obj\Debug\net8.0-windows\schetseditor.csproj.AssemblyReference.cache
+C:\Users\nilsw\Documents\development\SchetsPlus\obj\Debug\net8.0-windows\schetsed.63B4BC20.Up2Date

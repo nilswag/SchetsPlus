@@ -2,7 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Windows.Forms;
+using System.Xml.Linq;
 
 public class SchetsWin : Form
 {
@@ -86,15 +91,40 @@ public class SchetsWin : Form
     {
         SaveFileDialog path = new SaveFileDialog();
         path.FileName = "untitled";
-        path.Filter = "PNG (*.png)|*.png|JPG (*.jpg,*.jpeg)|*.jpg;*.jpeg|BMP (*.bmp)|*.bmp";
+        path.Filter = "PNG (*.png)|*.png|JPG (*.jpg,*.jpeg)|*.jpg;*.jpeg|BMP (*.bmp)|*.bmp|SchetsPlus formaat (*.sp)|*.sp";
         path.AddExtension = true;
         if (path.ShowDialog() == DialogResult.OK)
         {
-            schetscontrol.Schets.SlaOp(path.FileName, ImageFormat.Png);
             opgeslagen = true;
+            // Custom file format
+            if (path.FilterIndex == 4)
+            {
+                SerializeTekenbareElementen(path.FileName);
+                return;
+            }
+            schetscontrol.Schets.SlaOp(path.FileName, ImageFormat.Png);
         }
     }
 
+    private void SerializeTekenbareElementen(string path)
+    {
+        List<TekenbaarElement> elements = schetscontrol.Schets.Elementen;
+        FileStream fs = new FileStream(path, FileMode.Create);
+#pragma warning disable SYSLIB0011 // Type or member is obsolete
+        new BinaryFormatter().Serialize(fs, elements);
+#pragma warning restore SYSLIB0011 // Type or member is obsolete
+        fs.Close();
+    }
+
+    private void DeserializeTekenbareElementen(string path)
+    {
+        FileStream fs = new FileStream(path, FileMode.Open);
+#pragma warning disable SYSLIB0011 // Type or member is obsolete
+        schetscontrol.Schets.Elementen = (List<TekenbaarElement>)new BinaryFormatter().Deserialize(fs);
+#pragma warning restore SYSLIB0011 // Type or member is obsolete
+        fs.Close();
+    }
+    
     private void KlikToolMenu(object sender, EventArgs e)
     {
         huidigeTool = (ISchetsTool)((ToolStripMenuItem)sender).Tag;

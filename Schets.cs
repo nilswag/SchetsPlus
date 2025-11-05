@@ -7,7 +7,9 @@ public class Schets
 {
     private Bitmap bitmap;
 
-    public List<TekenbaarElement> elementen = new List<TekenbaarElement>();
+    private List<TekenbaarElement> elementen = new List<TekenbaarElement>();
+
+    public List<TekenbaarElement> Elementen { get { return elementen; } set { elementen = value; } }
 
 
     public Schets()

@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("schetseditor")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4353895f07f422528088529d57f1b5bca5c53ee8")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+625c6938d558e78d1e1f099d36ac93013f44ac0d")]
 [assembly: System.Reflection.AssemblyProductAttribute("schetseditor")]
 [assembly: System.Reflection.AssemblyTitleAttribute("schetseditor")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
