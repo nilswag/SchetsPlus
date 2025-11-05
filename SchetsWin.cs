@@ -82,7 +82,7 @@ public class SchetsWin : Form
         paneel.Location = new Point(64, this.ClientSize.Height - 30);
     }
 
-    private void Exporteer(object sender, EventArgs e)
+    private void Opslaan(object sender, EventArgs e)
     {
         SaveFileDialog path = new SaveFileDialog();
         path.FileName = "untitled";
@@ -90,7 +90,7 @@ public class SchetsWin : Form
         path.AddExtension = true;
         if (path.ShowDialog() == DialogResult.OK)
         {
-            schetscontrol.Schets.Exporteer(path.FileName, ImageFormat.Png);
+            schetscontrol.Schets.SlaOp(path.FileName, ImageFormat.Png);
             opgeslagen = true;
         }
     }
@@ -128,7 +128,7 @@ public class SchetsWin : Form
         menu.MergeAction = MergeAction.MatchOnly;
 
         menu.DropDownItems.Add("Sluiten", null, Afsluiten);
-        menu.DropDownItems.Add("Exporteren als", null, Exporteer);
+        menu.DropDownItems.Add("Opslaan als", null, Opslaan);
         menuStrip.Items.Add(menu);
     }
 
