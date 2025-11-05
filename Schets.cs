@@ -7,7 +7,7 @@ public class Schets
 {
     private Bitmap bitmap;
 
-    private List<TekenbaarElement> elementen = new List<TekenbaarElement>();
+    private List<TekenbaarElement> elementen;
 
     public List<TekenbaarElement> Elementen { get { return elementen; } set { elementen = value; } }
 
@@ -15,6 +15,7 @@ public class Schets
     public Schets()
     {
         bitmap = new Bitmap(1, 1);
+        elementen = new List<TekenbaarElement>();
     }
 
     public Graphics BitmapGraphics
@@ -25,6 +26,12 @@ public class Schets
     public void SlaOp(string path, ImageFormat format)
     {
         bitmap.Save(path, format);
+    }
+
+    public void LaadPlaatje(string path)
+    {
+        bitmap.Dispose();
+        bitmap = new Bitmap(path);
     }
 
     public void VeranderAfmeting(Size sz)
@@ -46,7 +53,7 @@ public class Schets
 
     public void Herteken(Graphics g)
     {
-        g.Clear(Color.White);
+        //g.Clear(Color.White);
         foreach (var el in elementen)
         {
             el.Draw(g);
@@ -55,6 +62,8 @@ public class Schets
 
     public void Teken(Graphics gr)
     {
+        gr.Clear(Color.White);
+        gr.DrawImage(bitmap, 0, 0);
         // Redraws from object list instead of static bitmap
         Herteken(gr);
     }

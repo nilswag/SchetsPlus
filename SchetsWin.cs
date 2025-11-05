@@ -17,8 +17,10 @@ public class SchetsWin : Form
     private Panel paneel;
     private bool vast;
 
-    private bool opgeslagen;
+    private bool opgeslagen = true;
     public bool Opeslagen { get { return opgeslagen; } set { opgeslagen = value; } }
+
+    public SchetsControl SchetsControl { get { return schetscontrol; } }
 
     public SchetsWin()
     {
@@ -64,6 +66,8 @@ public class SchetsWin : Form
         {
             huidigeTool.Letter(schetscontrol, e.KeyChar);
         };
+
+        this.FormClosing += Afsluiten;
 
         this.Controls.Add(schetscontrol);
 
@@ -115,15 +119,6 @@ public class SchetsWin : Form
 #pragma warning restore SYSLIB0011 // Type or member is obsolete
         fs.Close();
     }
-
-    private void DeserializeTekenbareElementen(string path)
-    {
-        FileStream fs = new FileStream(path, FileMode.Open);
-#pragma warning disable SYSLIB0011 // Type or member is obsolete
-        schetscontrol.Schets.Elementen = (List<TekenbaarElement>)new BinaryFormatter().Deserialize(fs);
-#pragma warning restore SYSLIB0011 // Type or member is obsolete
-        fs.Close();
-    }
     
     private void KlikToolMenu(object sender, EventArgs e)
     {
@@ -135,7 +130,7 @@ public class SchetsWin : Form
         huidigeTool = (ISchetsTool)((RadioButton)sender).Tag;
     }
 
-    private void Afsluiten(object sender, EventArgs e)
+    private void Afsluiten(object sender, FormClosingEventArgs e)
     {
         if (!opgeslagen)
         {
@@ -146,10 +141,11 @@ public class SchetsWin : Form
                 MessageBoxIcon.Warning
             );
 
-            if (result == DialogResult.Cancel) return;
+            if (result == DialogResult.Cancel) {
+                if (e != null) e.Cancel = true;
+                return; 
+            }
         }
-
-        this.Close();
     }
 
     private void MaakFileMenu()
@@ -157,7 +153,7 @@ public class SchetsWin : Form
         ToolStripMenuItem menu = new ToolStripMenuItem("File");
         menu.MergeAction = MergeAction.MatchOnly;
 
-        menu.DropDownItems.Add("Sluiten", null, Afsluiten);
+        menu.DropDownItems.Add("Sluiten", null, (o, e) => this.Close());
         menu.DropDownItems.Add("Opslaan als", null, Opslaan);
         menuStrip.Items.Add(menu);
     }
